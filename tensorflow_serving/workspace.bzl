@@ -63,5 +63,5 @@ def tf_serving_workspace():
       ],
       sha256 = "70158101eab7ed44fd9cc34e7f247b3cae91a8e4490745d9d6eb7edc184e4d96",
       strip_prefix = "libevent-release-2.1.8-stable",
-      build_file = Label("third_party/libevent.BUILD"),
+      build_file = Label("//third_party/libevent.BUILD"),
   )
