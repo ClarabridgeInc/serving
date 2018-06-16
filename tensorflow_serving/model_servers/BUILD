@@ -272,7 +272,7 @@ cc_binary(
     srcs = [
         "main.cc",
     ],
-    visibility = ["//tensorflow_serving:internal"],
+    visibility = ["//tensorflow_serving:public"],
     deps = [
         ":http_server",
         ":model_platform_types",
