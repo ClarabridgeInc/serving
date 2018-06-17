@@ -161,6 +161,20 @@ serving_proto_library_py(
 )
 
 serving_proto_library(
+    name = "syntaxnet_service_proto",
+    srcs = ["syntaxnet_service.proto"],
+    has_services = 1,
+    cc_api_version = 2,
+    cc_grpc_version = 1,
+    go_api_version = 2,
+    java_api_version = 2,
+    deps = [
+        ":model_proto",
+        "@dragnn_model//syntaxnet:sentence_proto_cc",
+    ],
+)
+
+serving_proto_library(
     name = "prediction_service_proto",
     srcs = ["prediction_service.proto"],
     has_services = 1,

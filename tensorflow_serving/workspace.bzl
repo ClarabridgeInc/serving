@@ -17,6 +17,16 @@ def tf_serving_workspace():
       strip_prefix = "models-6fc65ee60ac39be0445e5a311b40dc7ccce214d0/research/inception",
   )
 
+  native.http_archive(
+      name = "dragnn_model",
+      urls = [
+          "https://mirror.bazel.build/github.com/ClarabridgeInc/models/archive/v0.1.tar.gz",
+          "https://github.com/ClarabridgeInc/models/archive/v0.1.tar.gz",
+      ],
+      sha256 = "7bb74d75d6cf187e9614eedcd27266964c432ee72815a6c8d9483c4fece6f7cd",
+      strip_prefix = "models-0.1/research/syntaxnet",
+  )
+
   tf_workspace(path_prefix = "", tf_repo_name = "org_tensorflow")
 
   # ===== gRPC dependencies =====
