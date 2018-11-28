@@ -362,6 +362,73 @@ cc_binary(
     ],
 )
 
+DRAGNN_DEPS = [
+    "@dragnn_model//dragnn/core:dragnn_ops_cc",
+    "@dragnn_model//dragnn/components/syntaxnet:syntaxnet_component",
+     "//tensorflow_serving/apis:syntaxnet_service_proto",
+]
+
+cc_library(
+    name = "dragnn_server_lib",
+    srcs = [
+        "dragnn_server.cc",
+    ],
+    hdrs = ["dragnn_server.h"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":http_server",
+        ":model_platform_types",
+        ":platform_config_util",
+        ":server_core",
+        ":grpc_status_util",
+        ":model_service_impl",
+        "@protobuf_archive//:cc_wkt_protos",
+        "@grpc//:grpc++",
+        "@org_tensorflow//tensorflow/c:c_api",
+        "@org_tensorflow//tensorflow/cc/saved_model:tag_constants",
+        "@org_tensorflow//tensorflow/core:lib",
+        "@com_google_absl//absl/memory",
+        "@org_tensorflow//tensorflow/core:protos_all_cc",
+        "//tensorflow_serving/config:model_server_config_proto",
+        "//tensorflow_serving/config:monitoring_config_proto",
+        "//tensorflow_serving/config:ssl_config_proto",
+        "//tensorflow_serving/core:availability_preserving_policy",
+        "//tensorflow_serving/servables/tensorflow:session_bundle_config_proto",
+    ] + TENSORFLOW_DEPS + SUPPORTED_TENSORFLOW_OPS + DRAGNN_DEPS,
+)
+
+cc_library(
+    name = "dragnn_server_main_lib",
+    srcs = [
+        "dragnn_main.cc",
+    ],
+    hdrs = [
+        "version.h",
+    ],
+    linkstamp = "version.cc",
+    visibility = [
+        ":tensorflow_model_server_custom_op_clients",
+        "//tensorflow_serving:internal",
+    ],
+    deps = [
+        ":dragnn_server_lib",
+        "@org_tensorflow//tensorflow/c:c_api",
+        "@org_tensorflow//tensorflow/core:lib",
+        "@org_tensorflow//tensorflow/core/platform/cloud:gcs_file_system",
+        "@org_tensorflow//tensorflow/core/platform/hadoop:hadoop_file_system",
+        "@org_tensorflow//tensorflow/core/platform/s3:s3_file_system",
+    ],
+)
+
+cc_binary(
+    name = "dragnn_server",
+    stamp = 1,
+    visibility = ["//tensorflow_serving:internal"],
+    deps = [
+        ":dragnn_server_main_lib",
+    ],
+)
+
 py_test(
     name = "tensorflow_model_server_test",
     size = "medium",
