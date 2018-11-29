@@ -257,8 +257,7 @@ Status Server::BuildAndStart(const Options& server_options) {
   const string server_address =
       "0.0.0.0:" + std::to_string(server_options.grpc_port);
   model_service_ = absl::make_unique<ModelServiceImpl>(server_core_.get());
-  syntaxnet_service_ = absl::make_unique<SyntaxNetServiceImpl>(
-      server_core_.get(), use_saved_model);
+  syntaxnet_service_ = absl::make_unique<SyntaxNetServiceImpl>(server_core_.get());
   ::grpc::ServerBuilder builder;
   builder.AddListeningPort(
       server_address,

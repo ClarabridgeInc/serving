@@ -435,6 +435,21 @@ cc_library(
 )
 
 cc_library(
+    name = "parser_impl",
+    srcs = ["parser_impl.cc"],
+    hdrs = ["parser_impl.h"],
+    visibility = [
+        "//visibility:public",
+    ],
+    deps = [
+        "//tensorflow_serving/apis:syntaxnet_service_proto",
+        "//tensorflow_serving/model_servers:server_core",
+        "@org_tensorflow//tensorflow/core:lib",
+        "@org_tensorflow//tensorflow/core:protos_all_cc",
+    ],
+)
+
+cc_library(
     name = "predict_util",
     srcs = ["predict_util.cc"],
     hdrs = ["predict_util.h"],

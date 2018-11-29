@@ -16,17 +16,18 @@ limitations under the License.
 #ifndef TENSORFLOW_SERVING_MODEL_SERVERS_PREDICTION_SERVICE_IMPL_H_
 #define TENSORFLOW_SERVING_MODEL_SERVERS_PREDICTION_SERVICE_IMPL_H_
 
+#include <memory>
+
 #include "tensorflow_serving/apis/syntaxnet_service.grpc.pb.h"
 #include "tensorflow_serving/apis/syntaxnet_service.pb.h"
+#include "tensorflow_serving/servables/tensorflow/parser_impl.h"
 
 namespace tensorflow {
 namespace serving {
 
 class SyntaxNetServiceImpl final : public syntaxnet::SyntaxNetService::Service {
  public:
-  explicit SyntaxNetServiceImpl(ServerCore* core)
-      : core_(core),
-        parser_(new SyntaxNetParser()) {}
+  explicit SyntaxNetServiceImpl(ServerCore* core);
 
   ::grpc::Status Parse(::grpc::ServerContext* context,
                          const syntaxnet::SyntaxNetRequest* request,

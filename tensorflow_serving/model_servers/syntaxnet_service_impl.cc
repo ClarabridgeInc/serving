@@ -13,8 +13,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#include "tensorflow_serving/model_servers/prediction_service_impl.h"
 #include "grpc/grpc.h"
+
+#include "tensorflow_serving/model_servers/syntaxnet_service_impl.h"
 #include "tensorflow_serving/model_servers/grpc_status_util.h"
 #include "tensorflow_serving/servables/tensorflow/classification_service.h"
 #include "tensorflow_serving/servables/tensorflow/get_model_metadata_impl.h"
@@ -24,9 +25,23 @@ limitations under the License.
 namespace tensorflow {
 namespace serving {
 
-::grpc::Status Parse(::grpc::ServerContext* context,
-                         const SyntaxNetRequest* request,
-                         SyntaxNetResponse* response) {
+namespace {
+
+int DeadlineToTimeoutMillis(const gpr_timespec deadline) {
+  return gpr_time_to_millis(
+      gpr_time_sub(gpr_convert_clock_type(deadline, GPR_CLOCK_MONOTONIC),
+                   gpr_now(GPR_CLOCK_MONOTONIC)));
+}
+
+}  // namespace
+
+SyntaxNetServiceImpl::SyntaxNetServiceImpl(ServerCore* core)
+      : core_(core),
+        parser_(new SyntaxNetParser()) {}
+
+::grpc::Status SyntaxNetServiceImpl::Parse(::grpc::ServerContext* context,
+                         const syntaxnet::SyntaxNetRequest* request,
+                         syntaxnet::SyntaxNetResponse* response) {
   tensorflow::RunOptions run_options = tensorflow::RunOptions();
   run_options.set_timeout_in_ms(
       DeadlineToTimeoutMillis(context->raw_deadline()));
