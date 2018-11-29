@@ -20,11 +20,11 @@ def tf_serving_workspace():
   native.http_archive(
       name = "dragnn_model",
       urls = [
-          "https://mirror.bazel.build/github.com/ClarabridgeInc/models/archive/v0.1.tar.gz",
-          "https://github.com/ClarabridgeInc/models/archive/v0.1.tar.gz",
+          "https://mirror.bazel.build/github.com/ClarabridgeInc/models/archive/v0.2.tar.gz",
+          "https://github.com/ClarabridgeInc/models/archive/v0.2.tar.gz",
       ],
-      sha256 = "7bb74d75d6cf187e9614eedcd27266964c432ee72815a6c8d9483c4fece6f7cd",
-      strip_prefix = "models-0.1/research/syntaxnet",
+      sha256 = "2113366b6974456552a8ebe0b42a24bb04867ab7f9a91e9440ee3c9625ce7bee",
+      strip_prefix = "models-0.2/research/syntaxnet",
   )
 
   tf_workspace(path_prefix = "", tf_repo_name = "org_tensorflow")
