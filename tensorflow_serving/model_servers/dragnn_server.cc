@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#include "tensorflow_serving/model_servers/server.h"
+#include "tensorflow_serving/model_servers/dragnn_server.h"
 
 #include <unistd.h>
 #include <iostream>

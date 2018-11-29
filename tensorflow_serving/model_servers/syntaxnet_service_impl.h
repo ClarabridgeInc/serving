@@ -22,15 +22,15 @@ limitations under the License.
 namespace tensorflow {
 namespace serving {
 
-class SyntaxNetServiceImpl final : public SyntaxNetService::Service {
+class SyntaxNetServiceImpl final : public syntaxnet::SyntaxNetService::Service {
  public:
   explicit SyntaxNetServiceImpl(ServerCore* core)
       : core_(core),
         parser_(new SyntaxNetParser()) {}
 
   ::grpc::Status Parse(::grpc::ServerContext* context,
-                         const SyntaxNetRequest* request,
-                         SyntaxNetResponse* response) override;
+                         const syntaxnet::SyntaxNetRequest* request,
+                         syntaxnet::SyntaxNetResponse* response) override;
 
  private:
   ServerCore* core_;
