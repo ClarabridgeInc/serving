@@ -474,8 +474,11 @@ void SharedBatchScheduler<TaskType>::ThreadLogic() {
 
       if (options_.env->NowMicros() >= (*next_queue_to_schedule_)->last_log_time_length_micros + logging_rate_) {
         auto num_enqueued_tasks = (*next_queue_to_schedule_)->NumEnqueuedTasks();
+	
+	if(num_enqueued_tasks != 0){
         LOG(INFO) << "Number of batches in a queue (" << (num_queues_tried + 1) << "/" << num_queues << ") : " << num_enqueued_tasks; // FLUENTD
-        (*next_queue_to_schedule_)->last_log_time_length_micros = options_.env->NowMicros();
+	}
+       	(*next_queue_to_schedule_)->last_log_time_length_micros = options_.env->NowMicros();
       }
 
       // If a closed queue responds to ScheduleBatch() with nullptr, the queue
@@ -490,7 +493,9 @@ void SharedBatchScheduler<TaskType>::ThreadLogic() {
       if (batch_to_process != nullptr) {
         queue_for_batch = next_queue_to_schedule_->get();
 
+	if(batch_to_process->size() != 0){
         LOG(INFO) << "Batch size to process: " << batch_to_process->size(); // FLUENTD
+	}
         last_log_time_size_micros_ = options_.env->NowMicros();
       }
 
