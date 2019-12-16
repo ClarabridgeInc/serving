@@ -458,7 +458,6 @@ void SharedBatchScheduler<TaskType>::ThreadLogic() {
   {
     mutex_lock l(mu_);
 
-
     const int num_queues = queues_.size();
     for (int num_queues_tried = 0;
          batch_to_process == nullptr && num_queues_tried < num_queues;
